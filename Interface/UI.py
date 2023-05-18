@@ -69,12 +69,14 @@ Label(container2, text='Feature Extraction Method', background='white', font=("H
                                                                                                      pady=30)
 
 Fiducial_radio_button = Radiobutton(container2, text="Fiducial", variable=feature_extraction_method_value, value=1,
-                                    font=("Helvetica", 16), background='white', bd=2, relief=tk.RAISED)
+                                    font=("Helvetica", 16), background='white', bd=0, relief=tk.RAISED,
+                                    highlightthickness=0)
 Fiducial_radio_button.grid(row=1, column=1, padx=10)
 
 Non_fiducial_radio_button = Radiobutton(container2, text="Non-Fiducial", variable=feature_extraction_method_value,
                                         value=2,
-                                        font=("Helvetica", 16), background='white', bd=2, relief=tk.RAISED)
+                                        font=("Helvetica", 16), background='white', bd=0, relief=tk.RAISED,
+                                        highlightthickness=0)
 Non_fiducial_radio_button.grid(row=1, column=2, padx=10)
 
 gif_image = Image.open("../assets/unlocked.gif")
