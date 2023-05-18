@@ -1,15 +1,19 @@
+import tkinter as tk
 from tkinter import *
 from tkinter import filedialog
-import tkinter as tk
+
+from PIL import Image, ImageTk, ImageSequence
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 from matplotlib.figure import Figure
 
-from App.Data_Preparation import load_signal, filter_signal, segment_signal
+from App.Data_Preparation import load_signal
+from Interface.Run import run
 
 root = Tk()
 root.title("Signature Identification and Verification")
 root.configure(background='gray')
-root.geometry("1000x800")
+root.resizable(False, False)
+root.geometry("1000x600")
 
 root.filename = filedialog.askopenfilename(title="Select a file")
 
@@ -52,6 +56,9 @@ def update_plot():
 
 update_plot()
 
+# People on the system
+Users = {0: "Salem", 1: "Mohamed", 2: "Ali", 3: "Fathy"}
+
 # Create another container for everything but signal plot
 container2 = tk.Frame(root, bg="white")
 container2.pack(side=tk.BOTTOM, fill=tk.BOTH, expand=True)
@@ -70,16 +77,39 @@ Non_fiducial_radio_button = Radiobutton(container2, text="Non-Fiducial", variabl
                                         font=("Helvetica", 16), background='white', bd=2, relief=tk.RAISED)
 Non_fiducial_radio_button.grid(row=1, column=2, padx=10)
 
+gif_image = Image.open("../assets/unlocked.gif")
+frames = []
+
+for i in ImageSequence.Iterator(gif_image):
+    frames.append(ImageTk.PhotoImage(i))
+print(len(frames))
+
+
+def update_frame(index):
+    frame = frames[index]
+    tk.Label(container2, image=frame, bd=0, highlightthickness=0).grid(row=3, column=5)
+    if index + 1 < len(frames):
+        container2.after(50, update_frame, (index + 1))
+
 
 # Login button
-def run():
-    pass
-    # filtered_signal = filter_signal(signal)
-    # segments = segment_signal(filtered_signal)
+def execute():
+    person_index = run(signal, feature_extraction_method_value.get())
+    if person_index == -1:  # which is impossible
+        Label(container2, text='You are not Authorized', background='white', font=("Helvetica", 16)).grid(row=3,
+                                                                                                          column=2,
+                                                                                                          pady=30)
+    else:
+        message = 'Welcome back, {name}'.format(name=Users[person_index])
+        Label(container2, text=message, background='white', font=("Helvetica", 16)).grid(row=3,
+                                                                                         column=2,
+                                                                                         pady=30)
+        update_frame(20)
 
 
-Button(container2, text='Login', width=10, font=("Helvetica", 16), command=run).grid(row=2, column=2, padx=30)
+Button(container2, text='Login', width=10, font=("Helvetica", 16), command=execute).grid(row=2, column=2, padx=30)
 
-# Extract Features from signal depend on Type
+# unlocked gif
+
 
 mainloop()
