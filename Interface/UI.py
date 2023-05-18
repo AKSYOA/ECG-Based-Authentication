@@ -10,7 +10,7 @@ from App.Data_Preparation import load_signal
 from Interface.Run import run
 
 root = Tk()
-root.title("Signature Identification and Verification")
+root.title("ECG based authentication interface")
 root.configure(background='gray')
 root.resizable(False, False)
 root.geometry("1000x600")
