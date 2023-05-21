@@ -18,7 +18,7 @@ root.geometry("1000x600")
 root.filename = filedialog.askopenfilename(title="Select a file")
 
 # Read Signal
-signal, fields = load_signal(root.filename[0:-4])
+signal = load_signal(root.filename[0:-4])
 
 # plot Signal on GUI
 fig = Figure(figsize=(6, 4))

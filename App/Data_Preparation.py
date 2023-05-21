@@ -11,8 +11,8 @@ high = 40.0 / nyquist_rate
 
 
 def load_signal(signal_path):
-    signal, fields = wfdb.rdsamp(signal_path, channels=[1])
-    return signal, fields
+    signal, _ = wfdb.rdsamp(signal_path, channels=[1])
+    return signal[96000:120012]
 
 
 def filter_signal(signal):
